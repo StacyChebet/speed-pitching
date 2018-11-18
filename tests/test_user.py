@@ -10,4 +10,7 @@ class UserTest(unittest.TestCase):
         '''
         Runs before every Test
         '''
-        self.new_user = User(1, "Tracy Kimathi", "tracykimathi@gmail.com", "chocolate")
+        self.new_user = User(password = chocolate)
+    
+    def test_password_setter(self):
+        self.assertTrue(self.new_user.pass_secure is not None)
