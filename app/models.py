@@ -1,4 +1,6 @@
 from . import db
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 class User(db.Model):
     __tablename__ = "users"
@@ -10,7 +12,13 @@ class User(db.Model):
     pitch = db.relationship("Pitch", backref="user", lazy="dynamic")
     Comment = db.relationship("Comment", backref ="user", lazy="dynamic")
     pass_secure = db.Column(db.String(255))
-   
+
+    @property
+    def password(self):
+        raise AttributeError('Stick to your lane bro!')
+    
+    def verify_password(self, password):
+        return check_password_hash(self.pass_secure, password)
 
 class Pitch(db.Model):
     '''
