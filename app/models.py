@@ -24,6 +24,18 @@ class Pitch:
     pitch = db.Column(db.string(255))
     upvotes = db.Column(db.Integer)
     downvotes = db.Column(db.Integer)
+    comments = db.relationship("Comment", backref="pitch", lazy="dynamic")
+
+class Comment:
+    '''
+    Defines comment objects
+    '''
+    __tablename__ = "comments"
+    id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    pitch_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
+    comment = db.Column(db.String(255))
+
     
     def __repr__(self):
         return f'User {self.username}'
