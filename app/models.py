@@ -9,10 +9,10 @@ class User(db.Model):
     prof_pic = db.Column(db.String)
     pitch = db.relationship("Pitch", backref="user", lazy="dynamic")
     Comment = db.relationship("Comment", backref ="user", lazy="dynamic")
-
+    pass_secure = db.Column(db.String(255))
    
 
-class Pitch:
+class Pitch(db.Model):
     '''
     User class to define pitch objects
     '''
@@ -21,12 +21,12 @@ class Pitch:
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     name = db.Column(db.String)
     category = db.Column(db.String)
-    pitch = db.Column(db.string(255))
+    pitch = db.Column(db.String(255))
     upvotes = db.Column(db.Integer)
     downvotes = db.Column(db.Integer)
     comments = db.relationship("Comment", backref="pitch", lazy="dynamic")
 
-class Comment:
+class Comment(db.Model):
     '''
     Defines comment objects
     '''
