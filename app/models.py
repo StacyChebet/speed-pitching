@@ -1,12 +1,13 @@
-class User:
-    '''
-    User class to define user objects
-    '''
-    def __init__(self,id,username,email,password):
-        self.id = id
-        self.username = username
-        self.email = email
-        self.password = password
+from . import db
+
+class User(db.Model):
+    __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key = True)
+    username = db.Column(db.String(255))
+
+    def __repr__(self):
+        return f'User {self.username}'
+   
 
 class Pitches:
     '''
@@ -17,5 +18,5 @@ class Pitches:
         self.category = category
         self.upvote = upvote
         self.downvote = downvote
-        
+
 
