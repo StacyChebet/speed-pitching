@@ -2,6 +2,8 @@ from flask import render_template, request, redirect, url_for,abort
 from ..models import User,Pitch,Comment
 from . import main
 from flask_login import login_required
+from .forms import UpdateProfile
+from .. import db
 
 #views
 @main.route('/')
@@ -20,3 +22,22 @@ def profile(username):
         abort(404)
 
     return render_template("profile/profile.html", user = user)
+
+@main.route('/user/<username>/update', methods = ['GET', 'POST'])
+@login_required
+def update_profile(username):
+    user = User.query.filter_by(username = username).first()
+    if user is None:
+        abort(404)
+
+    form = UpdateProfile()
+
+    if form.validate_on_submit():
+        user.profile = form.profile.data
+
+        db.session.add(user)
+        db.session.commit()
+
+        return redirect(url_for('.profile', username=user.username))
+
+    return render_template('profile/update.html', form=form)
