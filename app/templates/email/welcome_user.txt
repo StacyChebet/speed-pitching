@@ -1,0 +1,4 @@
+Hello {{user.username}}
+Welcome to the dark side
+We have seen that you signed up to join Speed Pitching.
+Create your own pitches, be it pick up lines, business pitches or just funny pitches(especially these :) )
