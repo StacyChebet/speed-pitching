@@ -4,6 +4,7 @@ from . import auth
 from ..models import User,Pitch,Comment
 from .forms import LoginForm,SignupForm
 from ..import db
+from ..email import mail_message
 
 @auth.route('/signup', methods = ["GET","POST"])
 def signup():
@@ -12,6 +13,8 @@ def signup():
         user = User(email = form.email.data, username = form.username.data, password = form.password.data)
         db.session.add(User)
         db.sesion.commit()
+
+        mail_message("Welcome to Speed Pitching","email/welcome_user",user.email, user=user)
         return redirect(url_for('auth.login'))
         title = "Create New Account"
     return render_template('auth/signup.html',signup_form = form)
