@@ -12,6 +12,13 @@
     {%else%}
       <p> {{user.username| capitalize}} User has no bio </p>
     {% endif %}
+
+    <!--Update profile-->
+    <div class = "update">
+        {% if user == current_user %}
+            <a href="{{url_for('main.update_profile',username=user.username)}}">Edit profile</a>
+        {% endif %}  
+    </div>
   </div>
 
   <!--Display profile photo-->
@@ -22,6 +29,13 @@
     {%else%}
     <p>No profile picture available</p>
     {% endif %}
+
+      {% if user == current_user%}
+      <form action="{{url_for('main.update_pic', username=user.username)}}" method="post" enctype="multipart/form-data">
+        <input type="file" name="photo" class="form-control" required>
+        <input type="submit">
+      </form>
+      {% endif %}
   </div>
 </div>
 </div>
