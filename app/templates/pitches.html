@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block styles%}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static',filename='css/styles.css')}}">
+{% endblock%}
+
+{% block content %}
+    <div class="container">
+        {% for pitch in pitches%}
+        <h1>{{pitch.category | upper}}</h1>
+        <div class="info">
+            <p>{{pitch.name | upper}}</p>
+            <p>{{pitch.pitch}}</p>
+            <p>Pitched by: </p>
+
+
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+        

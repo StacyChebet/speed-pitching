@@ -2,6 +2,7 @@ from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from . import login_manager
+from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -54,8 +55,7 @@ class Pitch(db.Model):
     upvotes = db.Column(db.Integer)
     downvotes = db.Column(db.Integer)
     comments = db.relationship("Comment", backref="pitch", lazy="dynamic")
-    date_created = db.Column(db.String)
-    time_created = db.Column(db.String)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     def save_pitch(self):
         db.session.add(self)
@@ -63,7 +63,7 @@ class Pitch(db.Model):
 
     def pitch_comments(self):
         pitch = Pitch.query.filter_by(id = self.id).first()
-        comments = Comment.query.filter_by(pitch_id = pitch.id).order_by(Comment.time_created.desc())
+        comments = Comment.query.filter_by(pitch_id = pitch.id).order_by(Comment.date_created.desc())
 
 class Comment(db.Model):
     '''
@@ -74,8 +74,7 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     pitch_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
     comment = db.Column(db.String(255))
-    date_created = db.Column(db.String)
-    time_created = db.Column(db.String)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     def save_comment(self):
         db.session.add(self)
